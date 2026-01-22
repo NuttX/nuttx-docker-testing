@@ -45,7 +45,7 @@ jobs:
   push:
     runs-on: ubuntu-latest
     env:
-      IMAGE_TAG: ghcr.io/${{ github.repository }}/apache-nuttx-ci-linux
+      IMAGE_TAG: ghcr.io/nuttx/nuttx-docker-testing/apache-nuttx-ci-linux
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
