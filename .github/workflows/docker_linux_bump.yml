@@ -70,7 +70,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Log into registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -79,9 +79,9 @@ jobs:
         run: |
           df -h
       - name: Push Linux image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
-          context: tools/ci/docker/bump
+          context: tools/ci/docker/esptool
           platforms: linux/amd64
           push: ${{ github.ref == 'refs/heads/master' }}
           tags: ${{ env.IMAGE_TAG }}
