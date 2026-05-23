@@ -49,9 +49,8 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -y -q
 RUN mkdir -p /tools
 WORKDIR /tools
 
-RUN mkdir -p /tools/nuttx-tools
-RUN curl -s -L https://bitbucket.org/nuttx/tools/get/9ad3e1ee75c7.tar.gz \
-  | tar -C nuttx-tools --strip-components=1 -xz
+RUN mkdir -p /tools/nuttx-tools \
+  && git clone --depth 1 https://github.com/patacongo/tools nuttx-tools
 
 RUN mkdir -p /tools/bloaty \
   && git clone --depth 1 --branch v1.1 https://github.com/google/bloaty bloaty-src \
@@ -396,6 +395,7 @@ ENV PIP_NO_CACHE_DIR=0
 # We are using the minimal python installation from the system so include
 # setuptools and also wheel so we can use the binary releases of packages
 # instead of requiring them to be compiled.
+RUN pip3 install --upgrade pip
 RUN pip3 install setuptools
 RUN pip3 install wheel
 RUN pip3 install cmake-format
@@ -406,7 +406,7 @@ RUN pip3 install cvt2utf
 # Install pytest
 RUN pip3 install cxxfilt
 RUN pip3 install construct
-RUN pip3 install esptool==4.8.dev4
+RUN pip3 install esptool==5.2.0
 RUN pip3 install imgtool
 RUN pip3 install kconfiglib
 RUN pip3 install pexpect==4.8.0
