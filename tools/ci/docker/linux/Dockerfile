@@ -37,6 +37,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -y -q
   gawk \
   git \
   gperf \
+  libftdi1-dev \
   libncurses5-dev \
   make \
   ninja-build \
@@ -49,8 +50,9 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -y -q
 RUN mkdir -p /tools
 WORKDIR /tools
 
-RUN mkdir -p /tools/nuttx-tools \
-  && git clone --depth 1 https://github.com/patacongo/tools nuttx-tools
+RUN mkdir -p /tools/nuttx-tools
+RUN curl -s -L https://github.com/patacongo/tools/archive/9ad3e1ee75c7d39bfee8019ce44f4fd035d89584.tar.gz \
+  | tar -C nuttx-tools --strip-components=1 -xz
 
 RUN mkdir -p /tools/bloaty \
   && git clone --depth 1 --branch v1.1 https://github.com/google/bloaty bloaty-src \
@@ -249,7 +251,7 @@ RUN cd /tools/renesas-tools/build/gcc && \
 FROM nuttx-toolchain-base AS nuttx-toolchain-riscv
 # Download the latest RISCV GCC toolchain prebuilt by xPack
 RUN mkdir -p riscv-none-elf-gcc && \
-  curl -s -L "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v14.2.0-3/xpack-riscv-none-elf-gcc-14.2.0-3-linux-x64.tar.gz" \
+  curl -s -L "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v14.3.0-1/xpack-riscv-none-elf-gcc-14.3.0-1-linux-x64.tar.gz" \
   | tar -C riscv-none-elf-gcc --strip-components 1 -xz
 
 ###############################################################################
